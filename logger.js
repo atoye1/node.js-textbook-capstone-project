@@ -1,6 +1,6 @@
 const { createLogger, format, transports } = require('winston');
 
-const toKST = () => new Date.toLocaleString('en-US', {
+const toKST = () => new Date().toLocaleString('en-US', {
   timeZone: 'Asia/Seoul',
 });
 

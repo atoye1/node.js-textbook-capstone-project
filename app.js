@@ -11,18 +11,18 @@ dotenv.config();
 
 // 사용자 정의 패키지를 불러온다.
 const logger = require('./logger');
-const checkAuction = require('./checkAuction');
+// const checkAuction = require('./checkAuction');
 const { sequelize } = require('./models');
 const passportConfig = require('./passport');
 
 // 라우터를 불러온다.
-const indexRouter = require('./routes/index');
+const indexRouter = require('./routes');
 const authRouter = require('./routes/auth');
 const sse = require('./reference/sse');
 
 const app = express();
 passportConfig();
-checkAuction();
+// checkAuction();
 
 app.set('port', process.env.PORT || 8010);
 app.set('view engine', 'html');
@@ -77,5 +77,5 @@ const server = app.listen(app.get('port'), () => {
   logger.info(app.get('port'), '번 포트에서 대기중');
 });
 
-WebSocket(server, app);
-sse(server);
+// WebSocket(server, app);
+// sse(server);
