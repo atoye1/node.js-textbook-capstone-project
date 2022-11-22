@@ -1,9 +1,10 @@
 // 필요한 패키지를 설치한다.
-const express = require('express');
 const path = require('path');
+const passport = require('passport');
+
+const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const passport = require('passport');
 const nunjucks = require('nunjucks');
 const Redis = require('ioredis');
 const RedisStore = require('connect-redis')(session);
@@ -12,10 +13,11 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 // 사용자 정의 패키지를 불러온다.
+const WebSocket = require('./socket');
 const logger = require('./logger');
-// const checkAuction = require('./checkAuction');
 const { sequelize } = require('./models');
 const passportConfig = require('./passport');
+// const checkAuction = require('./checkAuction');
 
 // 라우터를 불러온다.
 const indexRouter = require('./routes');
@@ -89,5 +91,5 @@ const server = app.listen(app.get('port'), () => {
   logger.info(app.get('port'), '번 포트에서 대기중');
 });
 
-// WebSocket(server, app);
-// sse(server);
+WebSocket(server, app);
+sse(server);
