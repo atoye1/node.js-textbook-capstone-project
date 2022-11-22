@@ -5,8 +5,10 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
 const nunjucks = require('nunjucks');
-const dotenv = require('dotenv');
+const Redis = require('ioredis');
+const RedisStore = require('connect-redis')(session);
 
+const dotenv = require('dotenv');
 dotenv.config();
 
 // 사용자 정의 패키지를 불러온다.
@@ -26,6 +28,7 @@ passportConfig();
 
 app.set('port', process.env.PORT || 8010);
 app.set('view engine', 'html');
+
 nunjucks.configure('views', {
   express: app,
   watch: true,
@@ -38,6 +41,12 @@ sequelize.sync({ force: false })
     logger.error(err);
   });
 
+const redisClient = new Redis({
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+  password: process.env.REDIS_PASSWORD,
+});
+
 const sessionMiddleware = session({
   resave: false,
   saveUninitialized: false,
@@ -46,6 +55,7 @@ const sessionMiddleware = session({
     httpOnly: true,
     secure: false,
   },
+  store: new RedisStore({ client: redisClient }),
 });
 
 app.use(express.static(path.join(__dirname, 'public')));

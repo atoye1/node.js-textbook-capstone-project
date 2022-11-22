@@ -4,6 +4,8 @@ const local = require('./localStrategy');
 const kakao = require('./kakaoStrategy');
 const naver = require('./naverStrategy');
 const github = require('./githubStrategy');
+const google = require('./googleStrategy');
+
 const User = require('../models/user');
 
 module.exports = () => {
@@ -22,4 +24,5 @@ module.exports = () => {
   kakao();
   naver();
   github();
+  google();
 };
