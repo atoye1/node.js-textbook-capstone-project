@@ -1,7 +1,9 @@
 const express = require('express');
 const multer = require('multer');
+const multerS3 = require('multer-s3');
 const path = require('path');
 const fs = require('fs');
+const AWS = require('aws-sdk');
 
 const { Good, Auction, User } = require('../models');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
@@ -45,14 +47,18 @@ try {
   fs.mkdirSync('uploads');
 }
 
+AWS.config.update({
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  region: 'ap-northeast-2',
+});
+
 const upload = multer({
-  storage: multer.diskStorage({
-    destination(req, file, cb) {
-      cb(null, 'uploads/');
-    },
-    filename(req, file, cb) {
-      const ext = path.extname(file.originalname);
-      cb(null, path.basename(file.originalname, ext) + new Date().valueOf() + ext);
+  storage: multerS3({
+    s3: new AWS.S3(),
+    bucket: 'node-auction',
+    key(req, file, cb) {
+      cb(null, `original/${Date.now()}${path.basename(file.originalname)}`);
     },
   }),
   limits: { fileSize: 5 * 1024 * 1024 },
@@ -64,7 +70,7 @@ router.post('/good', isLoggedIn, upload.single('img'), async (req, res, next) =>
     await Good.create({
       OwnerId: req.user.id,
       name,
-      img: req.file.filename,
+      img: req.file.location,
       price,
     });
     return res.redirect('/');

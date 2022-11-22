@@ -7,8 +7,8 @@ const passport = require('passport');
 const nunjucks = require('nunjucks');
 const Redis = require('ioredis');
 const RedisStore = require('connect-redis')(session);
-
 const dotenv = require('dotenv');
+
 dotenv.config();
 
 // 사용자 정의 패키지를 불러온다.
@@ -54,6 +54,7 @@ const sessionMiddleware = session({
   cookie: {
     httpOnly: true,
     secure: false,
+    maxAge: 5 * 60 * 1000,
   },
   store: new RedisStore({ client: redisClient }),
 });
