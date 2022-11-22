@@ -76,4 +76,12 @@ router.get('/naver/callback', passport.authenticate('naver', {
   res.redirect('/');
 });
 
+router.get('/github', passport.authenticate('github'));
+router.get('/github/callback', passport.authenticate('github', {
+  failureRedirect: '/',
+}), (req, res) => {
+  console.log(req, res);
+  res.redirect('/');
+});
+
 module.exports = router;
