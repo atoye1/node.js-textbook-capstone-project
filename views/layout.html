@@ -38,24 +38,52 @@
             <a href="/auth/google" class="btn">Google</a>
             <a href="/auth/github" class="btn">Github</a>
           </div>
+          <div>
+            <p>ID/PW for test is test@test.com/test1234</p>
+            <p>social logins and signing up is also available</p>
+          </div>
           {% endif %}
         </div>
-        <footer>
-          Inspired by&nbsp;<a href="https://www.zerocho.com" target="_blank"
-            >ZeroCho</a
-          >'s Node Auction
-          <br />
-          <br />
-          social logins, AWS ECS, AWS S3, AWS Lambda, sessionDB features
-          implemented by&nbsp;<a
-            href="https://github.com/atoye1"
-            target="_blank"
-            >Donghun Seol</a
-          >
-        </footer>
         {% block good %} {% endblock %}
       </div>
       {% block content %} {% endblock %}
+      <footer>
+        <br />
+        Inspired by&nbsp;<a href="https://www.zerocho.com" target="_blank"
+          >ZeroCho</a
+        >'s Node Auction
+        <br />
+        <h3>these features are major functionality of this web-app</h3>
+        <ol
+          style="background-color: lightgray; text-align: left; font-size: 1rem"
+        >
+          <li>server sent event for timestamp synchronization</li>
+          <li>socket.io for persistant client/server communication</li>
+          <li>sequelize and mysql</li>
+          <li>pm2 for production level server management</li>
+          <li>most of client code are from zerocho's works</li>
+        </ol>
+        <h3>
+          Following Features Designed and implemented independently by
+          <a href="https://github.com/atoye1" target="_blank">Donghun Seol</a>
+        </h3>
+        <ol style="background-color: beige; text-align: left; font-size: 1rem">
+          <li>Four different social logins with passport.js</li>
+          <li>MySQL hosted from Oracle Cloud</li>
+          <li>Dockerization and AWS ECS deployment</li>
+          <li>AWS S3 as content store</li>
+          <li>AWS Lambda to process image resizing</li>
+          <li>
+            redis from redis cloud as session store for server fault tolerance
+            and future scaling out
+          </li>
+          <li>winson logger</li>
+          <li>eslint-airbnb styleguide used</li>
+        </ol>
+        <a href="https://github.com/atoye1" target="_blank"
+          >Git repository here</a
+        >
+      </footer>
     </div>
     <script>
       window.onload = () => {
