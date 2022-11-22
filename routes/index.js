@@ -48,7 +48,7 @@ try {
 const upload = multer({
   storage: multer.diskStorage({
     destination(req, file, cb) {
-      cb(null, '/uploads');
+      cb(null, 'uploads/');
     },
     filename(req, file, cb) {
       const ext = path.extname(file.originalname);
@@ -70,7 +70,7 @@ router.post('/good', isLoggedIn, upload.single('img'), async (req, res, next) =>
     return res.redirect('/');
   } catch (err) {
     logger.error(err);
-    next(err);
+    return next(err);
   }
 });
 

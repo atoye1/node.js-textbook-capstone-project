@@ -6,7 +6,7 @@ const toKST = () => new Date().toLocaleString('en-US', {
 
 const logger = createLogger({
   level: 'info',
-  format: format.combine(format.json(), format.timestamp({ format: toKST })),
+  format: format.combine(format.timestamp({ format: toKST }), format.json()),
   transports: [
     new transports.File({ filename: 'combined.log' }),
     new transports.File({ filename: 'error.log', level: 'error' }),
@@ -15,7 +15,7 @@ const logger = createLogger({
 
 if (process.env.NODE_ENV !== 'production') {
   logger.add(new transports.Console({
-    format: format.combine(format.simple(), format.timestamp({ format: toKST })),
+    format: format.combine(format.timestamp({ format: toKST }), format.simple()),
   }));
 }
 
