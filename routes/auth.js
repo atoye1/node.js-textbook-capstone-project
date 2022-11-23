@@ -15,7 +15,7 @@ router.post('/join', isNotLoggedIn, async (req, res, next) => {
   try {
     const exUser = await User.findOne({ where: { email } });
     if (exUser) {
-      const message = encodeURIComponent('이미 가입된 이메일입니다.');
+      const message = encodeURIComponent(`${exUser.provider}에서 이미 가입된 이메일입니다.`);
       return res.redirect(`/join?joinError=${message}`);
     }
     const hash = await bcrypt.hash(password, 12);
@@ -24,6 +24,7 @@ router.post('/join', isNotLoggedIn, async (req, res, next) => {
       nick,
       password: hash,
       money,
+      provider: 'local',
     });
     return res.redirect('/');
   } catch (err) {

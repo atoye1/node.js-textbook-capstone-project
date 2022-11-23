@@ -13,20 +13,19 @@ module.exports = () => {
     logger.info('naver profile', profile);
     try {
       const exUser = await User.findOne({ where: { snsId: profile.email.split('@')[0], provider: 'naver' } });
-      if (exUser) {
-        done(null, exUser);
-      } else {
-        const newUser = await User.create({
-          email: profile.email,
-          nick: `${profile.nickname}_naver`,
-          snsId: profile.email.split('@')[0],
-          provider: 'naver',
-        });
-        done(null, newUser);
-      }
+      if (exUser) return done(null, exUser);
+      const sameEmailUser = await User.findOne({ where: { email: profile.email } });
+      if (sameEmailUser) return done(null, false, { message: `해당 이메일은 ${sameEmailUser.provider || '로컬'}로 가입되어 있습니다.` });
+      const newUser = await User.create({
+        email: profile.email,
+        nick: `${profile.nickname}_naver`,
+        snsId: profile.email.split('@')[0],
+        provider: 'naver',
+      });
+      return done(null, newUser);
     } catch (err) {
       logger.error(err);
-      done(err);
+      return done(err);
     }
   }));
 };
