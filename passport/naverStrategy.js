@@ -17,7 +17,7 @@ module.exports = () => {
       const sameEmailUser = await User.findOne({ where: { email: profile.email } });
       if (sameEmailUser) {
         logger.error('user with same email found, error');
-        return done(null, false, { message: `해당 이메일은 ${sameEmailUser.provider || '로컬'}로 가입되어 있습니다.` });
+        return done({ message: `해당 이메일은 ${sameEmailUser.provider || '로컬'}로 가입되어 있습니다.` });
       }
       const newUser = await User.create({
         email: profile.email,

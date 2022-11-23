@@ -71,9 +71,16 @@ router.get('/kakao/callback', passport.authenticate('kakao', {
 
 router.get('/naver', passport.authenticate('naver', { authType: 'reprompt' }));
 
-router.get('/naver/callback', passport.authenticate('naver', {
-  failureRedirect: '/join?joinError=error while logging in with naver',
-}), (req, res) => {
+// router.get('/naver/callback', passport.authenticate('naver', {
+//   failureRedirect: '/join?joinError=error while logging in with naver',
+// }), (req, res, done) => {
+//   logger.info(res);
+//   logger.info(done);
+//   res.redirect('/');
+// });
+router.get('/naver/callback', passport.authenticate('naver'), (req, res, done) => {
+  logger.info(res);
+  logger.info(done);
   res.redirect('/');
 });
 
