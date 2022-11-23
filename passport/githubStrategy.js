@@ -13,7 +13,12 @@ module.exports = () => {
       const exUser = await User.findOne({ where: { snsId: profile.id, provider: 'github' } });
       if (exUser) return done(null, exUser);
 
-      logger.info(profile);
+      const sameEmailUser = await User.findOne({ where: { email: profile.emails[0].value } });
+      if (sameEmailUser) {
+        logger.error('user with same email found, error');
+        return done({ type: 'same email exists', message: `해당 이메일은 ${sameEmailUser.provider || '로컬'}로 가입되어 있습니다.` });
+      }
+
       const newUser = await User.create({
         email: profile.emails[0].value,
         nick: profile.displayName,

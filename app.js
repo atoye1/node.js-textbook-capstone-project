@@ -81,10 +81,13 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+  if (err.type === 'same email exists') {
+    return res.redirect(`/join?joinError=${err.message}`);
+  }
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
   res.status(err.status || 500);
-  res.render('error');
+  return res.render('error');
 });
 
 const server = app.listen(app.get('port'), () => {

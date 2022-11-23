@@ -16,6 +16,12 @@ module.exports = () => {
       if (exUser) {
         done(null, exUser);
       } else {
+        const sameEmailUser = await User.findOne({ where: { email: profile._json.email } });
+        if (sameEmailUser) {
+          logger.error('user with same email found, error');
+          return done({ type: 'same email exists', message: `해당 이메일은 ${sameEmailUser.provider || '로컬'}로 가입되어 있습니다.` });
+        }
+
         const newUser = await User.create({
           email: profile._json.email || `no-email${profile.id}@google.com`,
           nick: `${profile.displayName}_google`,
