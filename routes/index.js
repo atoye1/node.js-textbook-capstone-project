@@ -92,6 +92,7 @@ router.post('/good/:id/bid', isLoggedIn, async (req, res, next) => {
     });
 
     // 실시간으로 입찰 내역 전송
+    logger.info('bidding fired')
     req.app.get('io').to(req.params.id).emit('bid', {
       bid: result.bid,
       msg: result.msg,
