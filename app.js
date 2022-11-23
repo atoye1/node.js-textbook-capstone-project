@@ -22,7 +22,7 @@ const passportConfig = require('./passport');
 // 라우터를 불러온다.
 const indexRouter = require('./routes');
 const authRouter = require('./routes/auth');
-const sse = require('./reference/sse');
+const sse = require('./sse');
 
 const app = express();
 passportConfig();
