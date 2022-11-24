@@ -74,7 +74,8 @@
       return (time.textContent = hours + ':' + minutes + ':' + seconds)
     }
   }
-  const socket = io.connect(window.location.href, {
+  const socketUrl = new URL(window.location).origin;
+  const socket = io.connect(socketUrl, {
     path: '/socket.io',
   })
   socket.on('bid', (data) => {
